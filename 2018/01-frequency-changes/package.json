@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "build": "bsb -make-world",
-    "start": "bsb -make-world -w",
-    "clean": "bsb -clean-world"
+    "watch": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "start": "node src/Frequency.bs.js"
   },
   "keywords": [
     "BuckleScript"

@@ -18,3 +18,6 @@ let parseVariance = (varianceString: string) => {
 };
 let parseVariances = (varianceStrings: array(string)) =>
   Array.map(parseVariance, varianceStrings);
+
+let parseFile = (contents: string) =>
+  splitStringContents(contents)->parseVariances;

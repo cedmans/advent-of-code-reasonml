@@ -1,0 +1,1 @@
+let parseFile: string => array(int);

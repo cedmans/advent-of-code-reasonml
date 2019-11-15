@@ -28,3 +28,5 @@ let rec addVariances =
   result.recurse
     ? addVariances(result.variance, result.found, variances) : result.variance;
 };
+
+let calculate = variances => addVariances(0, Belt.Set.Int.empty, variances);

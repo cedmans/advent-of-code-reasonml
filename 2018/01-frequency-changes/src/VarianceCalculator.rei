@@ -1,0 +1,1 @@
+let calculate: array(int) => int;

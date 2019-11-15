@@ -30,15 +30,25 @@ let parseVariances = (varianceStrings: array(string)) =>
 type variancePayload = {
   found: Belt.Set.Int.t,
   variance: int,
+  recurse: bool,
 };
 let addVariance = (initial: variancePayload, variance: int) => {
-  variance: initial.variance + variance,
-  found: initial.found,
+  initial.recurse
+    ? {
+      let newVariance = initial.variance + variance;
+      let found = initial.found;
+
+      let recurse = !Belt.Set.Int.has(found, newVariance);
+      let found = Belt.Set.Int.add(found, newVariance);
+
+      {variance: newVariance, found, recurse};
+    }
+    : initial;
 };
 let addVariances = (variances: array(int)) =>
   Array.fold_left(
     addVariance,
-    {found: Belt.Set.Int.empty, variance: 0},
+    {found: Belt.Set.Int.fromArray([|0|]), variance: 0, recurse: true},
     variances,
   );
 

@@ -45,17 +45,23 @@ let addVariance = (initial: variancePayload, variance: int) => {
     }
     : initial;
 };
-let addVariances = (variances: array(int)) =>
-  Array.fold_left(
-    addVariance,
-    {found: Belt.Set.Int.fromArray([|0|]), variance: 0, recurse: true},
-    variances,
-  );
+let rec addVariances =
+        (initial: int, found: Belt.Set.Int.t, variances: array(int)) => {
+  let result =
+    Array.fold_left(
+      addVariance,
+      {found, variance: initial, recurse: true},
+      variances,
+    );
+
+  result.recurse
+    ? addVariances(result.variance, result.found, variances) : result.variance;
+};
 
 inputFilename
 |> getAbsolutePath
 |> loadFile
 |> splitStringContents
 |> parseVariances
-|> addVariances
+|> addVariances(0, Belt.Set.Int.empty)
 |> Js.log;

@@ -27,9 +27,20 @@ let parseVariance = (varianceString: string) => {
 let parseVariances = (varianceStrings: array(string)) =>
   Array.map(parseVariance, varianceStrings);
 
-let addVariance = (initial: int, variance: int) => initial + variance;
+type variancePayload = {
+  found: Belt.Set.Int.t,
+  variance: int,
+};
+let addVariance = (initial: variancePayload, variance: int) => {
+  variance: initial.variance + variance,
+  found: initial.found,
+};
 let addVariances = (variances: array(int)) =>
-  Array.fold_left(addVariance, 0, variances);
+  Array.fold_left(
+    addVariance,
+    {found: Belt.Set.Int.empty, variance: 0},
+    variances,
+  );
 
 inputFilename
 |> getAbsolutePath

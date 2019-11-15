@@ -1,4 +1,6 @@
 [@bs.val] external __dirname: string = "__dirname";
+exception InvalidVarianceString(string);
+exception InvalidSign;
 
 let inputFilename = "input.txt";
 
@@ -13,14 +15,13 @@ let parseVariance = (varianceString: string) => {
   let r = [%re "/([+-])(\\d+)/"];
   let result = Js.String.match(r, varianceString);
   switch (result) {
-  | None => 0
   | Some([|_entire, sign, value|]) =>
     switch (sign) {
     | "+" => int_of_string(value)
     | "-" => int_of_string(value) * (-1)
-    | _ => 0
+    | _ => raise(InvalidSign)
     }
-  | _ => 0
+  | _ => raise(InvalidVarianceString(varianceString))
   };
 };
 let parseVariances = (varianceStrings: array(string)) =>

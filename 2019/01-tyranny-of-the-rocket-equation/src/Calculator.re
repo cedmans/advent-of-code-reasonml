@@ -2,8 +2,18 @@ let inputFilename = "input.txt";
 
 let splitStringContents = string => Js.String.split("\n", string);
 
-let calculateFuel = (mass: float): int =>
-  mass /. 3.0 |> Js.Math.floor |> (+)(-2);
+let rec calculateFuel = (mass: float): int => {
+  switch (mass) {
+  | mass when mass <= 0. => 0
+  | mass =>
+    let m =
+      switch (mass /. 3. |> Js.Math.floor |> (+)(-2)) {
+      | m when m <= 0 => 0
+      | m => m
+      };
+    m + calculateFuel(Belt.Float.fromInt(m));
+  };
+};
 
 inputFilename
 |> File.loadFile

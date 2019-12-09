@@ -1,0 +1,1 @@
+let loadFile: string => string;

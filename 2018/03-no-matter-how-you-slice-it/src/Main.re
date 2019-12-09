@@ -29,9 +29,27 @@ let parseClaims = (lines: array(string)): array(claim) => {
   Belt.Array.map(lines, parseClaim);
 };
 
+let buildCanvasAllocations = (claims: array(claim)) => {
+  let canvas = Belt.Array.make(1000, Belt.Array.make(1000, 0));
+
+  Belt.Array.forEach(
+    claims,
+    claim => {
+      for (y in claim.y to claim.y + claim.height) {
+        {};
+      };
+      ();
+    },
+  );
+  canvas;
+};
+
 let splitBlob = (blob: string) => Js.String.split("\n", blob);
 let parseBlob = (blob: string) => {
   blob |> splitBlob |> parseClaims;
 };
 
-File.loadFile("./" ++ filename) |> parseBlob |> Js.log;
+File.loadFile("./" ++ filename)
+|> parseBlob
+|> buildCanvasAllocations
+|> Js.log;
